@@ -1,38 +1,335 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.search-form {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-bottom: 2rem;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  background-color: #63b8f1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #45a9eb;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 10;
+  list-style: none;
+}
+
+.suggestions li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.weather-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.location-info {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #3498db;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.forecast {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.day-card {
+  flex: 1;
+  text-align: center;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.day-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #0a93ee;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 0 8px 0 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.today-card {
+  background-color: #e8f4fc;
+  border: 2px solid #3498db;
+}
+
+.yesterday-card {
+  background-color: #f0f0f0;
+}
+
+.yesterday-card .day-label {
+  background-color: #95a5a6;
+}
+
+.day-card h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-transform: capitalize;
+  padding-top: 0.5rem;
+}
+
+.weather-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.icon-wrapper {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-icon img {
+  width: 64px;
+  height: 64px;
+  z-index: 1;
+}
+
+.temp-info, .sun-info, .uv-info {
+  margin-top: 1rem;
+}
+
+.temp-info p, .sun-info p {
+  margin: 8px 0;
+}
+
+.sun-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sun-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sun-icon {
+  font-size: 1.5rem;
+}
+
+.uv-info {
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.uv-info h4 {
+  margin-bottom: 0.5rem;
+}
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-logo {
+  display: block;
+}
+
+@keyframes sunny-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes cloudy-drift {
+  0% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(-5px); }
+}
+
+@keyframes rainy-fall {
+  0% { transform: translateY(-3px); opacity: 0.7; }
+  100% { transform: translateY(3px); opacity: 1; }
+}
+
+@keyframes thunder-flash {
+  0% { filter: brightness(1); }
+  25% { filter: brightness(1.5); }
+  50% { filter: brightness(1); }
+  75% { filter: brightness(1.8); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes snowy-fall {
+  0% { transform: translateY(-2px) rotate(0deg); }
+  50% { transform: translateY(2px) rotate(5deg); }
+  100% { transform: translateY(-2px) rotate(0deg); }
+}
+
+@keyframes foggy-fade {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes shower-bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  70% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+.sunny-animation img {
+  animation: sunny-pulse 3s infinite ease-in-out;
+}
+
+.cloudy-animation img {
+  animation: cloudy-drift 5s infinite ease-in-out;
+}
+
+.rainy-animation img {
+  animation: rainy-fall 1.5s infinite ease-in-out;
+}
+
+.thunder-animation img {
+  animation: thunder-flash 3s infinite;
+}
+
+.snowy-animation img {
+  animation: snowy-fall 3s infinite ease-in-out;
+}
+
+.foggy-animation img {
+  animation: foggy-fade 4s infinite ease-in-out;
+}
+
+.shower-animation img {
+  animation: shower-bounce 2s infinite ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .forecast {
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .day-card {
+    max-width: 100%;
   }
 }
